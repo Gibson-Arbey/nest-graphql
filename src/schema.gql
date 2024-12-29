@@ -2,6 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type User {
+  id: Int!
+  fullName: String!
+  email: String!
+  password: String!
+  isActive: Boolean!
+}
+
 type Query {
   """Hola mundo es lo que retorna"""
   hello: String!
@@ -11,4 +19,43 @@ type Query {
 
   """Retorna un numero entre 0 y un limite, por defecto en 10"""
   randomFromZeroTO(limit: Int): Int!
+
+  """retorna un listado de usuarios"""
+  users: [User!]!
+
+  """retorna un usuario"""
+  user(id: Int!): User!
+}
+
+type Mutation {
+  """registrar un usuario"""
+  registerUser(createUserInput: CreateUserInput!): User!
+
+  """actualizar un usuario"""
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeTodo(id: Int!): Boolean!
+}
+
+input CreateUserInput {
+  """Nombre completo del usuario"""
+  fullName: String!
+
+  """Email del usuario"""
+  email: String!
+
+  """Contraseña del usuario"""
+  password: String!
+}
+
+input UpdateUserInput {
+  id: Int!
+
+  """Nombre completo del usuario"""
+  fullName: String
+
+  """Email del usuario"""
+  email: String
+
+  """Contraseña del usuario"""
+  password: String
 }
