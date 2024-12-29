@@ -1,0 +1,14 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Query {
+  """Hola mundo es lo que retorna"""
+  hello: String!
+
+  """Retorna un numero aleatorio"""
+  randomNumber: Float!
+
+  """Retorna un numero entre 0 y un limite, por defecto en 10"""
+  randomFromZeroTO(limit: Int): Int!
+}
