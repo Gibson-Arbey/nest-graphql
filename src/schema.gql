@@ -10,6 +10,14 @@ type User {
   isActive: Boolean!
 }
 
+"""Agregaciones rápidas de usuarios"""
+type AggregationsType {
+  total: Int!
+  inactiveUsers: Int!
+  activesUsers: Int!
+  totalActivesUsers: Int! @deprecated(reason: "En su lugar, la mayoría utiliza activesUsers")
+}
+
 type Query {
   """Hola mundo es lo que retorna"""
   hello: String!
@@ -21,10 +29,14 @@ type Query {
   randomFromZeroTO(limit: Int): Int!
 
   """retorna un listado de usuarios"""
-  users: [User!]!
+  users(status: Boolean): [User!]!
 
   """retorna un usuario"""
   user(id: Int!): User!
+  totalUsers: Int!
+  inactiveUsers: Int!
+  activesUsers: Int!
+  aggregations: AggregationsType!
 }
 
 type Mutation {

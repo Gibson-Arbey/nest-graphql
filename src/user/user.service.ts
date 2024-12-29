@@ -6,6 +6,7 @@ import {
 import { User } from './entity/user.entity';
 import { CreateUserInput } from './dto/inputs/create-user.input';
 import { UpdateUserInput } from './dto/inputs/update-user.input';
+import { StatusArgs } from './dto/args/status.args';
 
 @Injectable()
 export class UserService {
@@ -33,7 +34,11 @@ export class UserService {
     },
   ];
 
-  findAll(): User[] {
+  findAll(statusArgs: StatusArgs): User[] {
+    const { status } = statusArgs;
+    if (status !== undefined)
+      return this.users.filter((user) => user.isActive === status);
+
     return this.users;
   }
 
@@ -81,5 +86,17 @@ export class UserService {
     this.users = this.users.filter((user) => user.id !== id);
 
     return true;
+  }
+
+  get totalUsers() {
+    return this.users.length;
+  }
+
+  get activesUsers() {
+    return this.users.filter((user) => user.isActive === true).length;
+  }
+
+  get inactiveUsers() {
+    return this.users.filter((user) => user.isActive === false).length;
   }
 }

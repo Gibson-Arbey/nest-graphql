@@ -3,6 +3,8 @@ import { User } from './entity/user.entity';
 import { UserService } from './user.service';
 import { CreateUserInput } from './dto/inputs/create-user.input';
 import { UpdateUserInput } from './dto/inputs/update-user.input';
+import { StatusArgs } from './dto/args/status.args';
+import { AggregationsType } from './types/aggregations.type';
 
 @Resolver()
 export class UserResolver {
@@ -11,8 +13,8 @@ export class UserResolver {
     name: 'users',
     description: 'retorna un listado de usuarios',
   })
-  findAll(): User[] {
-    return this.userService.findAll();
+  findAll(@Args() statusArgs: StatusArgs): User[] {
+    return this.userService.findAll(statusArgs);
   }
 
   @Query(() => User, { name: 'user', description: 'retorna un usuario' })
@@ -39,5 +41,31 @@ export class UserResolver {
   @Mutation(() => Boolean)
   removeTodo(@Args('id', { type: () => Int }) id: number) {
     return this.userService.deleteUser(id);
+  }
+
+  // Aggregations
+  @Query(() => Int, { name: 'totalUsers' })
+  totalUsers(): number {
+    return this.userService.totalUsers;
+  }
+
+  @Query(() => Int, { name: 'inactiveUsers' })
+  inactiveUsers(): number {
+    return this.userService.inactiveUsers;
+  }
+
+  @Query(() => Int, { name: 'activesUsers' })
+  activesUsers(): number {
+    return this.userService.activesUsers;
+  }
+
+  @Query(() => AggregationsType)
+  aggregations(): AggregationsType {
+    return {
+      activesUsers: this.userService.activesUsers,
+      inactiveUsers: this.userService.inactiveUsers,
+      total: this.userService.totalUsers,
+      totalActivesUsers: this.userService.totalUsers,
+    };
   }
 }
